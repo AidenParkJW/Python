@@ -39,7 +39,15 @@ try :
     for i, _img in enumerate(_imgs) :
         _counts += 1
         _srcUrl = _img.get("src")
-        _groups = re.findall("^(.+:)?(//)?(.*/)?(.+\.[^?]+).*$", _srcUrl)[0] # https://s.pstatic.net/static/www/mobile/edit/2019/0829/mobile_180126994547.jpg?345345
+
+        # https://s.pstatic.net/static/www/mobile/edit/2019/0829/mobile_180126994547.jpg?345345
+        # //s.pstatic.net/static/www/mobile/edit/2019/0829/mobile_180126994547.jpg?345345
+        # /static/www/mobile/edit/2019/0829/mobile_180126994547.jpg?345345
+        # /mobile_180126994547.jpg?345345
+        # ./mobile_180126994547.jpg?345345
+        # mobile_180126994547.jpg?345345
+        # finadall returns tuple [('', '', '', '')]
+        _groups         = re.findall("^(.+:)?(//)?(.*/)?(.+\.[^?]+).*$", _srcUrl)[0]
         _schema         = _request.type + ":" if not _groups[0] else _groups[0]
         _doubleSlash    = "//" if not _groups[1] else _groups[1]
         _middlePath     = _groups[2]
