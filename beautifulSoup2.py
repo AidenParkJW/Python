@@ -87,6 +87,7 @@ try :
         try :
             urllib.request.urlretrieve(_srcAbsUrl, "{}\{}".format(_trgtDir, _fileName))    # 역슬레쉬 하나로 해도 되고 두개로 해도 된다.
             _counts += 1
+            
         except Exception as e :
             print("Exception :", e)
             continue
