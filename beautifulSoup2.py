@@ -37,7 +37,6 @@ try :
 
     # enumerate makes and returns the tuple that has sequence.
     for i, _img in enumerate(_imgs) :
-        _counts += 1
         _srcUrl = _img.get("src")
 
         # https://s.pstatic.net/static/www/mobile/edit/2019/0829/mobile_180126994547.jpg?345345
@@ -47,15 +46,22 @@ try :
         # ./mobile_180126994547.jpg?345345
         # mobile_180126994547.jpg?345345
         # finadall returns tuple [('', '', '', '')]
-        _groups         = re.findall("^(.+:)?(//)?(.*/)?(.+\.[^?]+).*$", _srcUrl)[0]
-        _schema         = _request.type + ":" if not _groups[0] else _groups[0]
-        _doubleSlash    = "//" if not _groups[1] else _groups[1]
+        _groups         = re.findall(r"^(http[s]?)?(?::)?(?://)?(\w+\.?\w+\.\w+)?(.*/)?(\w+\.[^?]+).*$", _srcUrl)[0]
+        _schema         = _request.type if not _groups[0] else _groups[0]
+        _domain         = _request.host if not _groups[1] else _groups[1]
         _middlePath     = _groups[2]
         _fileName       = _groups[3]
-        _srcAbsUrl      = "{}{}{}{}".format(_schema, _doubleSlash, _middlePath, _fileName)
+
+        # validate filename one more time
+        _match = re.match(r"^\w+\.\w+$", _fileName)
+        if _match is None :
+            continue
+
+        _srcAbsUrl      = "{}://{}{}{}".format(_schema, _domain, _middlePath, _fileName)
 
         print(i, _fileName, _srcUrl, _srcAbsUrl)
         urllib.request.urlretrieve(_srcAbsUrl, "{}\{}".format(_trgtDir, _fileName))    # 역슬레쉬 하나로 해도 되고 두개로 해도 된다.
+        _counts += 1
 
 except Exception as e :
     print("Exception :", e)
