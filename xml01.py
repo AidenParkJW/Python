@@ -1,10 +1,12 @@
 import xml.etree.ElementTree as ET
 
-data = '''<person>
+data = '''
+<person>
     <name>Chunk</name>
     <pone type="intl">+1 734 303 4456</pone>
     <email hide="yes"/>
-</person>'''
+</person>
+'''
 
 print(data)
 tree = ET.fromstring(data)
@@ -13,7 +15,8 @@ print("Name :", tree.find("name").text)
 print("Attr :", tree.find("email").get("hide"))
 print()
 
-data = '''<stuff>
+data = '''
+<stuff>
     <users>
         <user x="2">
             <id>001</id>
@@ -24,7 +27,8 @@ data = '''<stuff>
             <name>Brent</name>
         </user>
     </users>
-</stuff>'''
+</stuff>
+'''
 
 print(data)
 tree = ET.fromstring(data)
