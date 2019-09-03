@@ -32,7 +32,15 @@ _counts = 0;
 try :
     _request = urllib.request.Request(_url, headers={'User-Agent':'Mozilla/5.0'})
     _response = urllib.request.urlopen(_request, context=ctx)
-    _soup = BeautifulSoup(_response, 'html.parser') # 첫번째 인자는 unicode, utf-8 byte 뭐든 된다.
+
+    # 첫번째 인자는 HTTPResponse object, utf-8 bytes, unicode string 뭐든 된다.
+    # _response
+    # _response.read()
+    # _response.read().decode()
+    # print(type(_response))
+    # print(type(_response.read()))
+    # print(type(_response.read().decode()))
+    _soup = BeautifulSoup(_response, "html.parser")
     _imgs = _soup.find_all("img")
 
     # enumerate makes and returns the tuple that has sequence.
@@ -87,7 +95,7 @@ try :
         try :
             urllib.request.urlretrieve(_srcAbsUrl, "{}\{}".format(_trgtDir, _fileName))    # 역슬레쉬 하나로 해도 되고 두개로 해도 된다.
             _counts += 1
-            
+
         except Exception as e :
             print("Exception :", e)
             continue
