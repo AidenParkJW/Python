@@ -8,8 +8,10 @@ if not _url :
 
 _response = urllib.request.urlopen(_url)
 #print(_response.read().decode())
+_data = _response.read().decode() # _response.read() The bytes type is also allowed.
+print(_data)
 
-_xml = ET.fromstring(_response.read().decode()) # _response.read() The bytes type is also allowed.
+_xml = ET.fromstring(_data)
 print(_xml.find("note").text)
 
 _comments = _xml.findall("comments/comment")

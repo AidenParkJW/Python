@@ -14,14 +14,14 @@ while True :
     print("Retrieving :", url)
     _response = urllib.request.urlopen(url)
     #print(type(_response))
-    data = _response.read().decode()
-    print("Retrieved", len(data), "characters")
-    print("Received XML :")
+    _data = _response.read().decode()
+    print("Retrieved", len(_data), "characters")
+    print("Received json :")
     print(data)
     print()
 
     try :
-        js = json.loads(data)
+        js = json.loads(_data)
         print("json :")
         print(js)
         print()
