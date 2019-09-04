@@ -34,3 +34,4 @@ while True :
     print("lat : {}, lng : {}".format(lat, lng))
     location = js["results"][0]["formatted_address"]
     print("loacation :", location)
+    print()
