@@ -14,14 +14,15 @@ while True :
     print("Retrieving :", url)
     _response = urllib.request.urlopen(url)
     #print(type(_response))
-    _data = _response.read().decode()
+    _data = _response.read().decode()  # _response.read() 해도 json.loads(_data) 된다.
+    #print(type(_data))
     print("Retrieved", len(_data), "characters")
     print("Retrieved json :")
     print(data)
     print()
 
     try :
-        js = json.loads(_data)
+        js = json.loads(_data)  # unicode str, utf-8 bytes 모두 된다.
         print("json :")
         print(js)
         print()
