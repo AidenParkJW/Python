@@ -13,6 +13,7 @@ data = '''[{"id":"001", "x":"2", "name":"Chuck"}, {"id":"009", "x":"7", "name":"
 
 info = json.loads(data)
 print(type(info))
+print("Length :", len(info))
 
 for item in info :
     print("Name :", item["name"])
