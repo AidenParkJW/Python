@@ -1,7 +1,7 @@
 import urllib.request, urllib.parse, urllib.error
 import json
 
-serviceUrl = "http://maps.googleapis.com/maps/api/geocode/json?"
+serviceUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
 
 while True :
     address = input("Enter location : ")
@@ -9,16 +9,22 @@ while True :
     if len(address) < 1 :
         break;
 
-    url = serviceUrl + urllib.parse.urlencode({"address":address})
+    url = serviceUrl + urllib.parse.urlencode({"address":address, "key":"AIzaSyA8IymBhchDz7YbY54gbJYEQuJYVRf7i08"})
 
     print("Retrieving :", url)
-    uh = urllib.request.urlopen(url)
-    print(type(uh))
-    data = uh.read().decode()
+    _response = urllib.request.urlopen(url)
+    #print(type(_response))
+    data = _response.read().decode()
     print("Retrieved", len(data), "characters")
+    print("Received XML :")
+    print(data)
+    print()
 
     try :
         js = json.loads(data)
+        print("json :")
+        print(js)
+        print()
 
     except Exception as e :
         print("Exception : ", e)
