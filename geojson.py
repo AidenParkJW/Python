@@ -16,7 +16,7 @@ while True :
     #print(type(_response))
     _data = _response.read().decode()
     print("Retrieved", len(_data), "characters")
-    print("Received json :")
+    print("Retrieved json :")
     print(data)
     print()
 
