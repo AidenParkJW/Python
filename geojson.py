@@ -36,6 +36,7 @@ while True :
         print(data)
         continue
 
+    # Pretty indented output
     print(json.dumps(js, indent=4))
 
     lat = js["results"][0]["geometry"]["location"]["lat"]
