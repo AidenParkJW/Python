@@ -3,6 +3,10 @@ import urllib.request, urllib.parse, urllib.error
 _response = urllib.request.urlopen("http://data.pr4e.org/romeo.txt")
 
 print(type(_response))
+# print header info.
+for k, v in _response.getheaders() :
+    print("{:>20} : {}".format(k, v))
+
 print()
 
 # 많이 사용하는 단어 출력하기 - 상위 10개 출력
