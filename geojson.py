@@ -14,6 +14,13 @@ while True :
     print("Retrieving :", url)
     _response = urllib.request.urlopen(url)
     #print(type(_response))
+
+    # print header info.
+    for k, v in _response.getheaders() :
+        print("{:>20} : {}".format(k, v))
+
+    print()
+
     _data = _response.read().decode()  # _response.read() 해도 json.loads(_data) 된다.
     #print(type(_data))
     print("Retrieved", len(_data), "characters")
