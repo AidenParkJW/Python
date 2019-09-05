@@ -29,6 +29,7 @@ while True :
     print()
 
     try :
+        # loads converts JSON -> Python object
         js = json.loads(_data)  # unicode str, utf-8 bytes 모두 된다.
         print("json :")
         print(js)
@@ -43,7 +44,7 @@ while True :
         print(data)
         continue
 
-    # Pretty indented output
+    # dumps converts Python object -> JSON String
     print(json.dumps(js, indent=4))
 
     lat = js["results"][0]["geometry"]["location"]["lat"]
