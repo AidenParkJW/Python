@@ -22,7 +22,7 @@ while True :
     print()
 
     _data = _response.read().decode()  # _response.read() 해도 json.loads(_data) 된다.
-    #print(type(_data))
+    #print(type(_data)) # <class 'str'>
     print("Retrieved", len(_data), "characters")
     print("Retrieved json :")
     print(data)
@@ -31,6 +31,7 @@ while True :
     try :
         # loads converts JSON -> Python object
         js = json.loads(_data)  # unicode str, utf-8 bytes 모두 된다.
+        #print(type(js)) # <class 'dict'>
         print("json :")
         print(js)
         print()
