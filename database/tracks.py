@@ -48,12 +48,13 @@ if not xmlFilename :
     xmlFilename = "Library.xml"
 
 _xml = ET.parse(xmlFilename)
-print(type(_xml))   # <class 'xml.etree.ElementTree.ElementTree'>
+# print(type(_xml))   # <class 'xml.etree.ElementTree.ElementTree'>
 
 _trackList = _xml.findall("dict/dict/dict")
 print("Track count :", len(_trackList))
 
-for _track in _trackList :
+# enumerate makes and returns the tuple that has sequence.
+for i, _track in enumerate(_trackList) :
     if lookup(_track, "Track ID") is None :
         continue
 
@@ -68,7 +69,7 @@ for _track in _trackList :
     if _name is None or _artist is None or _album is None or _count is None or _rating is None or _length is None:
         continue
 
-    print("{:10} {:50} {:30} {:30} {:10} {:10} {:10}".format(_trackId, _name, _artist, _album, _count, _rating, _length))
+    print("{:3} {:10} {:50} {:30} {:30} {:10} {:10} {:10}".format(i, _trackId, _name, _artist, _album, _count, _rating, _length))
 
     csr.execute("INSERT OR IGNORE INTO Artist (name) VALUES (?)", (_artist,))
     csr.execute("SELECT id FROM Artist WHERE name = ?", (_artist,))
