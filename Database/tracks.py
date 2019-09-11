@@ -84,4 +84,5 @@ for i, _track in enumerate(_trackList) :
 
     conn.commit()
 
+csr.close()
 conn.close()
