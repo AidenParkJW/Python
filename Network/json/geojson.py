@@ -6,7 +6,7 @@ serviceUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
 while True :
     address = input("Enter location : ")
 
-    if len(address) < 1 :
+    if len(address) < 1 :   # if not address :
         break;
 
     url = serviceUrl + urllib.parse.urlencode({"address":address, "key":"AIzaSyA8IymBhchDz7YbY54gbJYEQuJYVRf7i08"})

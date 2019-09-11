@@ -1,5 +1,6 @@
 import inspect
-print(inspect.getfile(inspect.currentframe()))
+_frameObject = inspect.currentframe()
+print(inspect.getfile(_frameObject))
 
 _str = "Banana"
 i = 0;
@@ -17,7 +18,7 @@ words = "Connect Foundation"
 
 if "F" in words :
     words.lower()
-    words[7] = "&"
+    # words[7] = "&"
 else :
     print(words)
 
