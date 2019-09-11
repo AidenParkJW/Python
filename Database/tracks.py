@@ -79,7 +79,7 @@ for i, _track in enumerate(_trackList) :
     csr.execute("SELECT id FROM Album WHERE title = ?", (_album,))
     _album_id = csr.fetchone()[0]
 
-    csr.execute('''INSERT OR IGNORE INTO Track (title, album_id, len, rating, count)
+    csr.execute('''INSERT OR REPLACE INTO Track (title, album_id, len, rating, count)
                    VALUES (?, ?, ?, ?, ?)''', (_name, _album_id, _length, _rating, _count))
 
     conn.commit()
