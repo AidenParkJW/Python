@@ -83,3 +83,5 @@ for i, _track in enumerate(_trackList) :
                    VALUES (?, ?, ?, ?, ?)''', (_name, _album_id, _length, _rating, _count))
 
     conn.commit()
+
+conn.close()
