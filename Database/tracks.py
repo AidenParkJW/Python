@@ -74,10 +74,12 @@ for i, _track in enumerate(_trackList) :
     csr.execute("INSERT OR IGNORE INTO Artist (name) VALUES (?)", (_artist,))
     csr.execute("SELECT id FROM Artist WHERE name = ?", (_artist,))
     _artist_id = csr.fetchone()[0]
+    #_artist_id = csr.lastrowid
 
     csr.execute("INSERT OR IGNORE INTO Album (title, artist_id) VALUES (?, ?)", (_album, _artist_id))
     csr.execute("SELECT id FROM Album WHERE title = ?", (_album,))
     _album_id = csr.fetchone()[0]
+    #_album_id = csr.lastrowid
 
     csr.execute('''INSERT OR REPLACE INTO Track (title, album_id, len, rating, count)
                    VALUES (?, ?, ?, ?, ?)''', (_name, _album_id, _length, _rating, _count))

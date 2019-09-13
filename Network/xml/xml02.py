@@ -12,6 +12,7 @@ _data = _response.read().decode() # _response.read() The bytes type is also allo
 print(_data)
 
 _xml = ET.fromstring(_data)
+# print(type(_xml))   # <class 'xml.etree.ElementTree.ElementTree'>
 print(_xml.find("note").text)
 
 _comments = _xml.findall("comments/comment")

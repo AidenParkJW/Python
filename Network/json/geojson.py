@@ -25,7 +25,7 @@ while True :
     #print(type(_data)) # <class 'str'>
     print("Retrieved", len(_data), "characters")
     print("Retrieved json :")
-    print(data)
+    print(_data)
     print()
 
     try :
@@ -42,7 +42,7 @@ while True :
 
     if not js or "status" not in js or js["status"] != "OK" :
         print("===== Failure To Retrieve =====")
-        print(data)
+        print(_data)
         continue
 
     # dumps converts Python object -> JSON String
