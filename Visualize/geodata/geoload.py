@@ -54,7 +54,7 @@ for line in fh :
         print("Exception : ", e)
         continue
 
-    if not js or "status" not in js or (js["status"] != "OK" and js["status"] != "ZERO_RESULTS") :
+    if not js or "status" not in js or js["status"] != "OK" or js["status"] == "ZERO_RESULTS" :
         print("===== Failure To Retrieve =====")
         print(_data)
         continue
