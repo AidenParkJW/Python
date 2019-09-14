@@ -113,7 +113,7 @@ while True :
 
         _soup = BeautifulSoup(html, "html.parser")
 
-    except KeyboardIterrupt :
+    except KeyboardInterrupt :
         print()
         print("Program interrupted by user....")
         break;
@@ -125,8 +125,8 @@ while True :
         conn.commit()
         continue
 
-    csr.execute('''INSERT OR IGNORE INTO Pages (url, html, new_rank)
-                VALUES (:url, :html, 1.0)''', {"url":url, "html":memoryview(html.encode())})
+    csr.execute('''INSERT OR REPLACE INTO Pages (url, html, new_rank)
+                VALUES (:url, :html, 1.0)''', {"url":url, "html":memoryview(html)})
     conn.commit()
 
     # Retrieve all of the anchor tags
@@ -147,7 +147,7 @@ while True :
         if ipos > 1 :
             href = href[:ipos]
 
-        if href.endswith(".png") or herf.endswith(".jpg") or href.endswith(".gif") :
+        if href.endswith(".png") or href.endswith(".jpg") or href.endswith(".gif") :
             continue
 
         if href.endswith("/") :
@@ -166,11 +166,11 @@ while True :
         if not found :
             continue
 
-        csr.execute("INSERT OR IGNORE Pages (url, html, new_rank) VALUES (:url, NULL, 1.0)", {"url":href})
+        csr.execute("INSERT OR IGNORE INTO Pages (url, html, new_rank) VALUES (:url, NULL, 1.0)", {"url":href})
         count += 1
         conn.commit()
 
-        csr.execute("SELECT id FROM Links WHERE url = :url", {"url":href})
+        csr.execute("SELECT id FROM Pages WHERE url = :url", {"url":href})
         try :
             row = csr.fetchone()
             to_id = row["id"]
@@ -179,7 +179,7 @@ while True :
             print("Could not retrieve id")
             continue
 
-        csr.execute("INSERT OR IGNORE Links (form_id, to_id) VALUES (:from_id, :to_id)", {"from_id":from_id, "to_id":to_id})
+        csr.execute("INSERT OR IGNORE INTO Links (from_id, to_id) VALUES (:from_id, :to_id)", {"from_id":from_id, "to_id":to_id})
         conn.commit()
 
     print(count)
