@@ -41,7 +41,7 @@ try :
     # print(type(_response.read()))
     # print(type(_response.read().decode()))
     _soup = BeautifulSoup(_response, "html.parser")
-    _imgs = _soup.find_all("img")
+    _imgs = _soup.find_all("img")   # equal _soup("img")
 
     # enumerate makes and returns the tuple that has sequence.
     for i, _img in enumerate(_imgs) :

@@ -9,7 +9,7 @@ try :
     _soup = BeautifulSoup(_html, "html.parser")
 
     # Retrieve all of the anchor tags
-    _tags = _soup("img")
+    _tags = _soup("img")    # equal _soup.find_all("img")
     for _tag in _tags :
         print(_tag.get("src", None))
 

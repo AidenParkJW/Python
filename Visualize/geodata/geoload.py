@@ -12,6 +12,7 @@ serviceUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
 
 # If no database exists, a new database is created.
 conn = sqlite3.connect("geodata.sqlite")
+# if specified like this one, returns dictionary cursor, otherwise underly returns a tuple of tuples.
 conn.row_factory = sqlite3.Row
 csr = conn.cursor()
 
