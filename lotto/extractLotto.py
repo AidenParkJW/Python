@@ -4,7 +4,7 @@ def makeLotto() :
     _lotto = list()
 
     while len(_lotto) < 6 :
-        _no = random.randrange(1, 45)
+        _no = random.randint(1, 45)
 
         if _no in _lotto :
             continue
@@ -34,7 +34,24 @@ csr.executescript('''
     );
 ''')
 
-while True :
+inputNum = 0
+lottoCnt = 0
+
+try :
+    _input = input("How many lotto No. (Default 1) : ")
+    inputNum = int(_input)
+
+except KeyboardInterrupt :
+    print("Program interrupted by user....")
+
+except Exception as e :
+    print("Exception : ", e)
+    print("Run as 1")
+    inputNum = 1
+
+print()
+
+while lottoCnt < inputNum :
     _lotto = makeLotto()
 
     csr.execute('''
@@ -55,6 +72,8 @@ while True :
         continue
 
     else :
+        lottoCnt += 1
+
         csr.execute('''
             SELECT *
             FROM MyLotto
@@ -89,8 +108,21 @@ while True :
             print("Existing Lotto : ", end=" ")
 
         print(_lotto)
-        break
+        con.commit()
 
-con.commit()
+print()
+
+csr.execute("SELECT * FROM MyLotto ORDER BY SEQ DESC LIMIT ?", (inputNum, ))
+cols = [col[0] for col in csr.description]
+
+# print header
+print("{:>5} {:>5} {:>5} {:>5} {:>5} {:>5} {:>5} {:>10} {:20} {:20}".format(cols[0], cols[1], cols[2], cols[3], cols[4], cols[5], cols[6], cols[7], cols[8], cols[9]))
+print("--" * 50)
+
+# print data
+rows = csr.fetchall()
+for row in rows:
+    print("{:5} {:5} {:5} {:5} {:5} {:5} {:5} {:10} {:20} {:20}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+
 csr.close()
 con.close()

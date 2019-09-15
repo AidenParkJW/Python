@@ -116,7 +116,7 @@ while True :
     except KeyboardInterrupt :
         print()
         print("Program interrupted by user....")
-        break;
+        break
 
     except :
         print()
