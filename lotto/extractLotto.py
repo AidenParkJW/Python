@@ -1,3 +1,4 @@
+import urllib.request, urllib.parse, urllib.error
 import sqlite3, random
 
 def makeLotto() :
@@ -34,6 +35,18 @@ csr.executescript('''
     );
 ''')
 
+# retrieve latest lotto info and insert
+_response = urllib.request.urlopen("http://lotto.kaisyu.com/api?method=get")
+_dict = json.loads(_response.read())
+# print(_dict)
+# {'bnum': 24, 'gno': 876, 'gdate': '2019-09-14', 'nums': [5, 16, 21, 26, 34, 42]}
+_gno = _dict["gno"]
+_nums = _dict["nums"]
+_nums.insert(0, _gno)
+_latestLotto = tuple(_nums)
+csr.execute("INSERT OR IGNORE INTO Lotto (SEQ, NO1, NO2, NO3, NO4, NO5, NO6) VALUES (?, ?, ?, ?, ?, ?, ?)", _latestLotto)
+con.commit()
+
 inputNum = 0
 lottoCnt = 0
 
@@ -67,7 +80,7 @@ while lottoCnt < inputNum :
 
     _row = csr.fetchone()
 
-    # if duplicate.
+    # if duplicate. retry
     if _row is not None :
         continue
 
