@@ -118,24 +118,24 @@ while lottoCnt < inputNum :
                 AND NO5     = ?
                 AND NO6     = ?
             ''', _lotto)
-            print("Existing Lotto :", end=" ")
+            print("Old Lotto :", end=" ")
 
-        print(_lotto)
+        print("%05s %05s %05s %05s %05s %05s" % _lotto)
         con.commit()
 
 print()
 
-csr.execute("SELECT * FROM MyLotto ORDER BY SEQ DESC LIMIT ?", (inputNum, ))
+csr.execute("SELECT * FROM (SELECT * FROM MyLotto ORDER BY SEQ DESC LIMIT ?) ORDER BY SEQ ASC", (inputNum, ))
 cols = [col[0] for col in csr.description]
 
 # print header
-print("{:>5} {:>5} {:>5} {:>5} {:>5} {:>5} {:>5} {:>10} {:20} {:20}".format(cols[0], cols[1], cols[2], cols[3], cols[4], cols[5], cols[6], cols[7], cols[8], cols[9]))
+print("{:>5} | {:>5} {:>5} {:>5} {:>5} {:>5} {:>5} {:>8} {:20} {:20}".format(cols[0], cols[1], cols[2], cols[3], cols[4], cols[5], cols[6], cols[7], cols[8], cols[9]))
 print("--" * 50)
 
 # print data
 rows = csr.fetchall()
 for row in rows:
-    print("{:5} {:5} {:5} {:5} {:5} {:5} {:5} {:10} {:20} {:20}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+    print("{:5} | {:5} {:5} {:5} {:5} {:5} {:5} {:8} {:20} {:20}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
 
 csr.close()
 con.close()
