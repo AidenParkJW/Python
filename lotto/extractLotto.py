@@ -98,9 +98,9 @@ while lottoCnt < inputNum :
             AND NO6     = ?
         ''', _lotto)
 
-        _myLotto = csr.fetchone()
+        _row = csr.fetchone()
 
-        if not _myLotto :
+        if not _row :
             # insert new my lotto No.
             csr.execute('''
                     INSERT INTO MyLotto (NO1, NO2, NO3, NO4, NO5, NO6, COUNT, REG_DT, MOD_DT)
@@ -110,14 +110,7 @@ while lottoCnt < inputNum :
 
         else :
             # update COUNT, MOD_DT of existing my lotto No.
-            csr.execute('''UPDATE MyLotto SET COUNT = COUNT + 1, MOD_DT = DATETIME('now', 'localtime')
-                WHERE NO1   = ?
-                AND NO2     = ?
-                AND NO3     = ?
-                AND NO4     = ?
-                AND NO5     = ?
-                AND NO6     = ?
-            ''', _lotto)
+            csr.execute("UPDATE MyLotto SET COUNT = COUNT + 1, MOD_DT = DATETIME('now', 'localtime') WHERE SEQ = :SEQ", {"SEQ":_row["SEQ"]})
             print("Old Lotto :", end=" ")
 
         print("%05s %05s %05s %05s %05s %05s" % _lotto)
