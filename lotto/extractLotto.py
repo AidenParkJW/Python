@@ -47,6 +47,10 @@ _latestLotto = tuple(_nums)
 csr.execute("INSERT OR IGNORE INTO Lotto (SEQ, NO1, NO2, NO3, NO4, NO5, NO6) VALUES (?, ?, ?, ?, ?, ?, ?)", _latestLotto)
 con.commit()
 
+# retrieve final search condition.
+csr.execute("SELECT DATETIME('now', 'localtime') AS NOW")
+_now = csr.fetchone()["NOW"]
+
 inputNum = 0
 lottoCnt = 0
 
@@ -106,19 +110,19 @@ while lottoCnt < inputNum :
                     INSERT INTO MyLotto (NO1, NO2, NO3, NO4, NO5, NO6, COUNT, REG_DT, MOD_DT)
                     VALUES (?, ?, ?, ?, ?, ?, 1, DATETIME('now', 'localtime'), DATETIME('now', 'localtime'))
             ''', _lotto)
-            print("New Lotto :", end=" ")
+            print("{:5} New Lotto :".format(lottoCnt), end=" ")
 
         else :
             # update COUNT, MOD_DT of existing my lotto No.
             csr.execute("UPDATE MyLotto SET COUNT = COUNT + 1, MOD_DT = DATETIME('now', 'localtime') WHERE SEQ = :SEQ", {"SEQ":_row["SEQ"]})
-            print("Old Lotto :", end=" ")
+            print("{:5} Old Lotto :".format(lottoCnt), end=" ")
 
         print("%05s %05s %05s %05s %05s %05s" % _lotto)
         con.commit()
 
 print()
 
-csr.execute("SELECT * FROM (SELECT * FROM MyLotto ORDER BY SEQ DESC LIMIT ?) ORDER BY SEQ ASC", (inputNum, ))
+csr.execute("SELECT * FROM MyLotto WHERE MOD_DT >= :MOD_DT ORDER BY MOD_DT ASC", {"MOD_DT":_now})
 cols = [col[0] for col in csr.description]
 
 # print header
