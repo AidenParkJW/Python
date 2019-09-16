@@ -106,7 +106,7 @@ while lottoCnt < inputNum :
                     INSERT INTO MyLotto (NO1, NO2, NO3, NO4, NO5, NO6, COUNT, REG_DT, MOD_DT)
                     VALUES (?, ?, ?, ?, ?, ?, 1, DATETIME('now', 'localtime'), DATETIME('now', 'localtime'))
             ''', _lotto)
-            print("New Lotto : ", end=" ")
+            print("New Lotto :", end=" ")
 
         else :
             # update COUNT, MOD_DT of existing my lotto No.
@@ -118,7 +118,7 @@ while lottoCnt < inputNum :
                 AND NO5     = ?
                 AND NO6     = ?
             ''', _lotto)
-            print("Existing Lotto : ", end=" ")
+            print("Existing Lotto :", end=" ")
 
         print(_lotto)
         con.commit()
@@ -135,7 +135,7 @@ print("--" * 50)
 # print data
 rows = csr.fetchall()
 for row in rows:
-    print("{:5} {:5} {:5} {:5} {:5} {:5} {:5} {:10} {:20} {:20}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+    print("{:5} {:5} {:5} {:5} {:5} {:5} {:5} {:10} {:20} {:20}".format(row["0"], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
 
 csr.close()
 con.close()
