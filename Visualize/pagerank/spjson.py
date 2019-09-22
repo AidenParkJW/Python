@@ -46,14 +46,15 @@ _nodes = list()
 _links = list()
 
 fh.write('spiderJson = {"nodes":[\n')
-for row in nodes :
+for i, row in enumerate(nodes) :
     # print row
     rank = row[2]
     rank = 19 * ((rank - minrank) / (maxrank - minrank))
     _nodes.append('''{"weight":%s, "rank":%s, "id":%s, "url":"%s"}''' % (row[0], rank, row[3], row[4]))
-    map[row[3]] = count
+    # result of below script is same
+    # _nodes.append("{'weight':%s, 'rank':%s, 'id':%s, 'url':'%s'}" % (row[0], rank, row[3], row[4]))
+    map[row[3]] = i
     ranks[row[3]] = rank
-    count += 1
 
 fh.write(",\n".join(_nodes))
 fh.write("],\n")
@@ -67,7 +68,7 @@ for row in csr :
         continue
 
     rank = ranks[row[0]]
-    srank = 19 * ((rank - minrank) / maxrank - minrank)
+    srank = 19 * ((rank - minrank) / (maxrank - minrank))
     _links.append('''{"source":%s, "target":%s, "value":3}''' % (map[row[0]], map[row[1]]))
 
 fh.write(",\n".join(_links))
