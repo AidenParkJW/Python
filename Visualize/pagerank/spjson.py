@@ -51,7 +51,7 @@ for i, row in enumerate(nodes) :
     rank = row[2]
     rank = 19 * ((rank - minrank) / (maxrank - minrank))
     _nodes.append('''{"weight":%s, "rank":%s, "id":%s, "url":"%s"}''' % (row[0], rank, row[3], row[4]))
-    # result of below script is same
+    # The output of the script below is the same.
     # _nodes.append("{'weight':%s, 'rank':%s, 'id':%s, 'url':'%s'}" % (row[0], rank, row[3], row[4]))
     map[row[3]] = i
     ranks[row[3]] = rank
