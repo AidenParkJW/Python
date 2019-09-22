@@ -47,14 +47,14 @@ if len(prev_ranks) < 1 :
     print("Nothing to page rank. Check data.")
     quit()
 
-# lets do Page Rank in memory so it is really fase
+# lets do Page Rank in memory so it is really fast
 for i in range(many) :
     #print prev_ranks.items()[:5]
     next_ranks = dict()
     total = 0.0
     for (node, old_rank) in list(prev_ranks.items()) :
         total = total + old_rank
-        next_rank[node] = 0.0
+        next_ranks[node] = 0.0
     # print(total)
 
     # Find the number of outbound links and sent the page rank down each
@@ -79,7 +79,7 @@ for i in range(many) :
             next_ranks[id] = next_ranks[id] + amount
 
     newtot = 0
-    for (node, next_rank) in list(next_rank.items()) :
+    for (node, next_rank) in list(next_ranks.items()) :
         newtot = newtot + next_rank
     evap = (total - newtot) / len(next_ranks)
 
@@ -89,15 +89,15 @@ for i in range(many) :
 
     newtot = 0
     for (node, next_rank) in list(next_ranks.items()) :
-        newtot = newtot + next_ranks
+        newtot = newtot + next_rank
 
     # compute the per-page average change from old rank to new ranks
     # As indication of convergence of the algorithm
-    totodiff = 0
-    for (node, old_rank) in list(prev_rank.items()) :
+    totdiff = 0
+    for (node, old_rank) in list(prev_ranks.items()) :
         new_rank = next_ranks[node]
         diff = abs(old_rank - new_rank)
-        totdiff = totdiff + avediff
+        totdiff = totdiff + diff
 
     avediff = totdiff / len(prev_ranks)
     print(i + 1, avediff)
@@ -107,7 +107,7 @@ for i in range(many) :
 
 # Put the final ranks back into the database
 print(list(next_ranks.items())[:5])
-csr.execute("UPDATE Page SET old_rank = new_rank")
+csr.execute("UPDATE Pages SET old_rank = new_rank")
 for (id, new_rank) in list(next_ranks.items()) :
     csr.execute("UPDATE Pages SET new_rank = ? WHERE id = ?", (new_rank, id))
 

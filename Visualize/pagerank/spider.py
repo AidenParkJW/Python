@@ -125,8 +125,8 @@ while True :
         conn.commit()
         continue
 
-    csr.execute('''INSERT OR REPLACE INTO Pages (url, html, new_rank)
-                VALUES (:url, :html, 1.0)''', {"url":url, "html":memoryview(html)})
+    csr.execute("INSERT OR IGNORE INTO Pages (url, html, new_rank) VALUES (:url, NULL, 1.0)", {"url":url})
+    csr.execute("UPDATE Pages SET html = :html WHERE url = :url", {"html":memoryview(html), "url":url})
     conn.commit()
 
     # Retrieve all of the anchor tags
