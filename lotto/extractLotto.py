@@ -39,16 +39,29 @@ def main() :
     ''')
 
     # retrieve latest lotto info and insert
-    _response = urllib.request.urlopen("http://lotto.kaisyu.com/api?method=get")
-    _dict = json.loads(_response.read())
-    # print(_dict)
-    # {'bnum': 24, 'gno': 876, 'gdate': '2019-09-14', 'nums': [5, 16, 21, 26, 34, 42]}
-    _gno = _dict["gno"]
-    _nums = _dict["nums"]
-    _nums.insert(0, _gno)
-    _latestLotto = tuple(_nums)
-    csr.execute("INSERT OR IGNORE INTO Lotto (SEQ, NO1, NO2, NO3, NO4, NO5, NO6) VALUES (?, ?, ?, ?, ?, ?, ?)", _latestLotto)
-    con.commit()
+    csr.execute("SELECT IFNULL(MAX(SEQ), 0) AS SEQ FROM Lotto")
+    _seq = csr.fetchone()["SEQ"]
+
+    while True :
+        _seq += 1
+        _url = "http://lotto.kaisyu.com/api?method=get&gno={}".format(_seq)
+        _response = urllib.request.urlopen(_url)
+        _rtnMsg = _response.read().decode()
+
+        if _rtnMsg.startswith("ERROR") :
+            print("Latest SEQ {}".format(_seq - 1))
+            break
+
+        else :
+            _dict = json.loads(_rtnMsg) # _response.read()
+            print(_dict)
+            # {'bnum': 24, 'gno': 876, 'gdate': '2019-09-14', 'nums': [5, 16, 21, 26, 34, 42]}
+            _gno = _dict["gno"]
+            _nums = _dict["nums"]
+            _nums.insert(0, _gno)
+            _latestLotto = tuple(_nums)
+            csr.execute("INSERT OR IGNORE INTO Lotto (SEQ, NO1, NO2, NO3, NO4, NO5, NO6) VALUES (?, ?, ?, ?, ?, ?, ?)", _latestLotto)
+            con.commit()
 
     # retrieve final search condition.
     csr.execute("SELECT DATETIME('now', 'localtime') AS NOW")
